@@ -1,5 +1,6 @@
 package com.debut.readDataFromAssetsFile
 
+import android.util.Log
 import org.jetbrains.annotations.NotNull
 import java.io.*
 
@@ -18,9 +19,10 @@ class ReadFile {
                 total.append(line).append('\n')
             }
 //here we are converting data into string and reading the spliting the no of words on basis of spaces
-            val content = total.toString().split(" ").size
+            val content = total.toString().replace(",", "")
 
-            content
+            // here we are returning the total noOfWords
+            content.split(" ").size
 
         } catch (e: FileNotFoundException) {
             throw  AssertionError("File Not Found Exception")
