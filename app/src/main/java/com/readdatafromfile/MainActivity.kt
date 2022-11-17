@@ -2,7 +2,7 @@ package com.readdatafromfile
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.debut.readDataFromAssetsFile.CountWordsFromAssestFile
+import com.debut.readDataFromAssetsFile.ReadFile
 import com.readdatafromfile.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
             labelReadWords.setOnClickListener {
                 numberOfWords.text = "${
-                    CountWordsFromAssestFile().readWords(
+                    ReadFile().readWords(
                         "demoText.txt",
                         this@MainActivity
                     )
