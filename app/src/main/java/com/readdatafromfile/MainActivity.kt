@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
                //we are getting here the uri of the files
                 val selectedFile = result.data?.data // The URI with the location of the file
 
-                mBinding.numberOfWords.text="${
+  mBinding.numberOfWords.text="${
                     selectedFile?.let { contentResolver.openInputStream(it) }
                         ?.let { ReadFile().readWords(it) }
                 } " + getString(R.string.words)
