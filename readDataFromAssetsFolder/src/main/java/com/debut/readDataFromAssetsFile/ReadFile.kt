@@ -1,7 +1,9 @@
 package com.debut.readDataFromAssetsFile
 
 import android.content.Context
+import android.util.Log
 import org.jetbrains.annotations.NotNull
+import java.io.File
 import java.io.FileNotFoundException
 import java.io.InputStream
 
@@ -11,6 +13,7 @@ class ReadFile {
     fun readWords(@NotNull fileName: String, @NotNull mContext: Context): Int {
         var stream: InputStream? = null
         return try {
+//we are reading the file from the asset folder in android app
             stream = mContext.assets.open(fileName)
             val size = stream.available()
             val buffer = ByteArray(size)
