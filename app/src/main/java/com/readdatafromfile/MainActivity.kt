@@ -1,20 +1,12 @@
 package com.readdatafromfile
 
 import android.app.Activity
-import android.app.Application
-import android.content.Context
-import android.content.ContextWrapper
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import com.debut.readDataFromAssetsFile.ReadFile
-import com.readdatafromfile.app.App
 import com.readdatafromfile.databinding.ActivityMainBinding
-import java.io.File
-import java.io.FileOutputStream
-import java.util.Date
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,15 +20,29 @@ class MainActivity : AppCompatActivity() {
         mBinding.apply {
 
             labelReadWords.setOnClickListener {
+                /*Here we are starting intent for reading all the files from the local storage*/
+                val intent = Intent()
+                    .setType("text/*")
+                    .setAction(Intent.ACTION_GET_CONTENT)
 
-                numberOfWords.text="${
-                    ReadFile().readWords("demoText.txt", this@MainActivity)
-                } " + getString(R.string.words)
+                resultLauncher.launch(Intent.createChooser(intent, "Select a file"))
 
             }
 
         }
 
     }
+    var resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+               //we are getting here the uri of the files
+                val selectedFile = result.data?.data // The URI with the location of the file
 
+                mBinding.numberOfWords.text="${
+                    selectedFile?.let { contentResolver.openInputStream(it) }
+                        ?.let { ReadFile().readWords(it) }
+                } " + getString(R.string.words)
+
+            }
+        }
 }

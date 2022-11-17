@@ -1,32 +1,31 @@
 package com.debut.readDataFromAssetsFile
 
-import android.content.Context
-import android.util.Log
 import org.jetbrains.annotations.NotNull
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.InputStream
+import java.io.*
 
 class ReadFile {
 
     /*function to count words from the asset file if file exists and there are some words it will return the no of Words else it will return -1*/
-    fun readWords(@NotNull fileName: String, @NotNull mContext: Context): Int {
-        var stream: InputStream? = null
+    fun readWords(@NotNull fileName: InputStream): Int {
+
         return try {
-//we are reading the file from the asset folder in android app
-            stream = mContext.assets.open(fileName)
-            val size = stream.available()
-            val buffer = ByteArray(size)
-            stream.read(buffer)
-            stream.close()
-            var data = String(buffer)
-            data.split(" ").size
+
+            val r = BufferedReader(InputStreamReader(fileName))
+            //this is a variable to store the data after reading it from the file
+            val total = StringBuilder()
+            var line: String?
+            while (r.readLine().also { line = it } != null) {
+                total.append(line).append('\n')
+            }
+//here we are converting data into string and reading the spliting the no of words on basis of spaces
+            val content = total.toString().split(" ").size
+
+            content
+
         } catch (e: FileNotFoundException) {
             throw  AssertionError("File Not Found Exception")
         } catch (e: Exception) {
             throw  AssertionError("${e.localizedMessage}")
-        } finally {
-            stream?.close()
         }
 
     }
